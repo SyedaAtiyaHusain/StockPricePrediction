@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en" class="animated fadeInLeftBig">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Prediction</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{%static 'StockMarketPrediction/animate.css' %}">
+    <link rel="stylesheet" href="{%static 'StockMarketPrediction/cover.css' %}">
+    <style>
+        /*
+        *Button
+        */
+        
+        .example_e {
+            border: none;
+            background: #404040;
+            color: #ffffff !important;
+            font-weight: 100;
+            padding: 20px;
+            text-transform: uppercase;
+            border-radius: 6px;
+            display: inline-block;
+            transition: all 0.3s ease 0s;
+        }
+        
+        .example_e:hover {
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            letter-spacing: 3px;
+            background: none;
+            -webkit-box-shadow: 0px 5px 40px -10px rgba(247, 247, 247, 0.57);
+            -moz-box-shadow: 0px 5px 40px -10px rgba(247, 247, 247, 0.57);
+            transition: all 0.3s ease 0s;
+        }
+        
+        .col-md-3 {
+            display: inline-block;
+            margin-left: -4px;
+        }
+    </style>
+</head>
+</head>
+<!--=============================================================================================================-->
+
+<body class="text-center">
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+            <div class="inner">
+                <h3 class="masthead-brand mx-5">Stock Price Prediction</h3>
+                <nav class="nav nav-masthead justify-content-center">
+                    <a class="nav-link" href="/stock/">Home</a>
+                    <a class="nav-link" href="/stock/features">Features</a>
+                    <a class="nav-link" href="/stock/contact">Contact</a>
+                </nav>
+            </div>
+        </header>
+
+        <!--===========================================================================================================-->
+        <div class="container">
+            <div style="margin-top: 50px;" class="row">
+                <div class="col-md-6 my-2 ">
+                    <p class=" example_e" href="add-website-here" target="_blank" rel="nofollow noopener" style="margin: 10px 30px;width: inherit;">Company Symbol : {{comp}}</p>
+                </div>
+                <div class="col-md-6 my-2 ">
+                    <p class=" example_e" href="add-website-here" target="_blank" rel="nofollow noopener" style="margin: 10px 30px;width: inherit;">Live Price : {{Live}}</p>
+                </div>
+                <div class="col-md-6 my-2">
+                    <p class=" example_e" href="add-website-here" target="_blank" rel="nofollow noopener" style="margin: 10px 30px;width: inherit;">Accuracy : {{Accuracy}}</p>
+                </div>
+                <div class="col-md-6 my-2 ">
+                    <p class=" example_e" href="add-website-here" target="_blank" rel="nofollow noopener" style="margin: 10px 30px;width: inherit;">Prediction : {{Prediction}}</p>
+                </div>
+            </div>
+            <div style="margin-left: 50px;margin-top: 50px;">{{graph|safe}}</div>
+        </div>
+        <!--===========================================================================================================-->
+        <footer class="mastfoot mt-auto">
+            <div class="inner">
+                <p style="margin-top: 20px;">Made By: <a>Pankaj Lal</a> and by <a>Syeda Atiya Hussain</a></p>
+            </div>
+        </footer>
+    </div>
+    <!--=============================================================================================================-->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</body>
+
+</html>

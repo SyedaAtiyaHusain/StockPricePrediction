@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" class="animated fadeInLeftBig">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Home Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{%static 'StockMarketPrediction/animate.css' %}">
+    <link rel="stylesheet" href="{%static 'StockMarketPrediction/cover.css' %}">
+    <style>
+
+    </style>
+</head>
+<!--==========================================================================================================-->
+
+<body class="text-center">
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+            <div class="inner">
+                <h3 class="masthead-brand">Stock Price Prediction</h3>
+                <nav class="nav nav-masthead justify-content-center">
+                    <a class="nav-link active" href="/stock/">Home</a>
+                    <a class="nav-link" href="/stock/features">Features</a>
+                    <a class="nav-link" href="/stock/contact">Contact</a>
+                </nav>
+            </div>
+        </header>
+        <!--==========================================================================================================-->
+        <main role="main" class="inner cover">
+            <h1 class="cover-heading my-5">Enter The Name of The Company </h1>
+            <form method="post">{% csrf_token %}
+                <p class="lead">
+                    <div class="input-group">
+                        <input type="text" name="Company" class="form-control" name="company"></div>
+                </p>
+                <p class="lead">
+                    <button type="submit" class="btn btn-success" style="margin: 20px;width: 150px;">Predict</button>
+                </p>
+            </form>
+        </main>
+        <!--=======================================================================================================-->
+        <footer class="mastfoot mt-auto">
+            <div class="inner">
+                <p>Made By: <a>Pankaj Lal</a> and by <a>Syeda Atiya Hussain</a>.</p>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

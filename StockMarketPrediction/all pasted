@@ -1,0 +1,140 @@
+from django.shortcuts import render
+from django.http import HttpResponse
+#ML Libraries
+import pandas as pd
+import numpy as np
+from yahoo_fin import stock_info as si
+from sklearn.svm import SVR
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score
+#graph
+import plotly.graph_objects as go
+#test*********************************************
+from plotly.offline import plot
+import chart_studio.plotly as py
+from plotly.graph_objs import *
+from plotly.graph_objs import Scatter
+#**************************************************
+# Create your views here.
+
+# def make_prediction(quotes_df, estimator):
+#      # Make a copy of the dataframe so we don't modify the original
+#     df = quotes_df.copy()
+    
+#     # Add the percent change of the daily closing price
+#     df['ClosingPctChange'] = df['close'].pct_change()
+    
+#     # Get today's record (the last record) so we can predict it later. Do this
+#     # before we add the 'NextDayPrice' column so we don't have to drop it later
+#     df_today = df.iloc[-1:, :].copy()
+        
+#     # Create a column of the next day's closing prices so we can train on it
+#     # and then eventually predict the value
+#     df['NextClose'] = df['close'].shift(-1)
+    
+#     # Get rid of the rows that have NaNs
+#     df.dropna(inplace=True)
+    
+#     # Decide which features to use for our regression. This will allow us to 
+#     # tweak things during testing
+#     features_to_fit = ['open', 'high', 'low', 'close', 'volume']
+    
+#     # Create our target and labels
+#     X = df[features_to_fit]
+#     y = df['adjclose']
+    
+#     # Create training and testing data sets
+#     X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.8,test_size=0.2)
+    
+#     # Do ten-fold cross-validation and compute our average accuracy
+#     cv = cross_val_score(estimator, X_test, y_test,cv=5)
+#     ac=cv.mean()
+    
+#     # Fit the regressor with the full dataset to be used with predictions
+#     estimator.fit(X, y)
+
+#     # Predict today's closing price
+#     X_new = df_today[features_to_fit]
+#     next_price_prediction = estimator.predict(X_new)
+   
+#     #graphs 
+#     fig = go.Figure()
+#     fig.add_trace(go.Scatter(x=df.index, y=df['adjclose'], name="Adjusted Close",line_color='deepskyblue'))
+#     fig.add_trace(go.Scatter(x=df.index, y=df['prediction'], name="Predicted Values",line_color='dimgray'))
+
+# fig.update_layout(title_text='Time Series with Rangeslider',xaxis_rangeslider_visible=True)
+# fig.show()
+
+#     # Return the predicted closing price
+#     return next_price_prediction,ac
+
+
+def predict(company_data,n_days):
+    #forming a new dataset 'df' with all columns and also replacing 
+    #the dates we want to predict with the Nan values
+    df=company_data[['adjclose']]
+    df['prediction']=df[['adjclose']].shift(-n_days)
+    #df.dropna(inplace=True)
+    #create a independent dataset X
+    #coverting the data in np array
+    x=np.array(df.drop(['prediction'],1))
+    #removing the rows to be predicted
+    x=x[:-n_days]
+    #create the dependent dataset Y
+    #covert the DF to np araay  with all values
+    y=np.array(df['prediction'])
+    #get all valules except the n rows
+    y=y[:-n_days]
+    #spliiting 
+    x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2)
+    #x_days it is the last 30 rows of the orignal dataset from adj. close
+    x_days=np.array(df.drop(['prediction'],1))[-n_days:]
+    #applying the linear algorithm and checking accuracy
+    lr= LinearRegression() 
+    lr.fit(x_train,y_train)
+    lr_score=lr.score(x_test,y_test)
+    # #applying the SVR algorithm and checking accuracy
+    svr=SVR(kernel='rbf',C=1000,gamma=0.1) 
+    svr.fit(x_train,y_train)
+    svr_score=svr.score(x_test,y_test)
+    lrpredict = lr.predict(x_days)
+    svrpredict = svr.predict(x_days)
+    #live=si.get_live_price(company)
+    #error calculations
+    #lr_error=mean_squared_error(x_days,lrpredict) 
+    #svr_error=mean_squared_error(x_days,svrpredict)
+    #returning all the values
+    #return lrpredict,lr_score,svrpredict,svr_score,live
+    #
+
+    #graph
+    # fig = go.Figure()
+    # fig.add_trace(go.Scatter(x=company_data.index[-n_days:], y=company_data['adjclose'].tail(n_days), name="Adjusted Close",line_color='deepskyblue'))
+    # fig.add_trace(go.Scatter(x=company_data.index[-n_days:], y=lrpredict, name="Predicted Values",line_color='dimgray'))
+    # fig.update_layout(title_text='Time Series with Rangeslider',xaxis_rangeslider_visible=True)
+    # plot_div = plot(fig, output_type='div', include_plotlyjs=False)
+
+
+    #
+    #return svrpredict,svr_score
+    return lrpredict,lr_score
+    #return lrpredict,lr_score,svrpredict,svr_score,live,lr_error,svr_error
+
+
+
+def index(request):
+    if request.method == 'POST': 
+        comp=request.POST.get('Company')
+        n_days=10
+        quotes_df=si.get_data(comp.upper())
+        C=comp.upper()
+        pred,ac=predict(quotes_df,n_days)
+        current_price=si.get_live_price(comp.upper())
+        params={'comp':C,'Prediction':pred[-1:],'Accuracy':ac,'Live':current_price}
+        return render(request,'StockMarketPrediction/prediction.htm',params)
+    else:
+        return render(request,'StockMarketPrediction/index.htm')
+
+def features(request):
+    return render(request,'StockMarketPrediction/features.htm')

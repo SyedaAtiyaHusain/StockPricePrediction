@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en" class="animated fadeInLeftBig">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Contact Us</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{%static 'StockMarketPrediction/animate.css' %}">
+    <link rel="stylesheet" href="{%static 'StockMarketPrediction/cover.css' %}">
+    <style>
+        col-lg-3 {
+            margin-left: 100px;
+        }
+        
+        body {
+            font-family: tahoma;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+        }
+        
+        .our-team {
+            width: 200px;
+            height: 350px;
+            padding: 30px 0 40px;
+            margin-bottom: 30px;
+            background-color: #f7f5ec;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .our-team .picture {
+            display: inline-block;
+            height: 130px;
+            width: 130px;
+            margin-bottom: 50px;
+            z-index: 1;
+            position: relative;
+        }
+        
+        .our-team .picture::before {
+            content: "";
+            width: 100%;
+            height: 0;
+            border-radius: 50%;
+            background-color: #1369ce;
+            position: absolute;
+            bottom: 135%;
+            right: 0;
+            left: 0;
+            opacity: 0.9;
+            transform: scale(3);
+            transition: all 0.3s linear 0s;
+        }
+        
+        .our-team:hover .picture::before {
+            height: 100%;
+        }
+        
+        .our-team .picture::after {
+            content: "";
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #1369ce;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        
+        .our-team .picture img {
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+            transform: scale(1);
+            transition: all 0.9s ease 0s;
+        }
+        
+        .our-team:hover .picture img {
+            box-shadow: 0 0 0 14px #f7f5ec;
+            transform: scale(0.7);
+        }
+        
+        .our-team .title {
+            display: block;
+            font-size: 15px;
+            color: #4e5052;
+            text-transform: capitalize;
+        }
+        
+        .our-team .social {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            background-color: #1369ce;
+            position: absolute;
+            bottom: -100px;
+            left: 0;
+            transition: all 0.5s ease 0s;
+        }
+        
+        .our-team:hover .social {
+            bottom: 0;
+        }
+        
+        .our-team .social li {
+            display: inline-block;
+        }
+        
+        .our-team .social li a {
+            display: block;
+            padding: 10px;
+            font-size: 17px;
+            color: white;
+            transition: all 0.3s ease 0s;
+            text-decoration: none;
+        }
+        
+        .our-team .social li a:hover {
+            color: #1369ce;
+            background-color: #f7f5ec;
+        }
+    </style>
+</head>
+
+<body class="text-center">
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+            <div class="inner">
+                <h3 class="masthead-brand mx-5">Stock Price Prediction</h3>
+                <nav class="nav nav-masthead justify-content-center">
+                    <a class="nav-link" href="/stock">Home</a>
+                    <a class="nav-link" href="/stock/features">Features</a>
+                    <a class="nav-link active" href="/stock/contact">Contact</a>
+                </nav>
+            </div>
+        </header>
+        <!--=====================================================================================-->
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3" style="margin-left: 100px;">
+                <div class="our-team">
+                    <div class="picture">
+                        <img class="img-fluid" src="https://picsum.photos/130/130?image=1027">
+                    </div>
+                    <div class="team-content">
+                        <h3 class="name" style="color: black" ;>Syeda Atiya Hussain</h3>
+                        <h4 class="title">Web Developer | Developer </h4>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3" style="margin-left: 100px;">
+                <div class="our-team">
+                    <div class="picture">
+                        <img class="img-fluid" src="https://picsum.photos/130/130?image=839">
+                    </div>
+                    <div class="team-content">
+                        <h3 class="name" style="color: black" ;>Pankaj Lal</h3>
+                        <h4 class="title">UI Designer | Developer</h4>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--=====================================================================================-->
+        <footer class="mastfoot mt-auto">
+            <div class="inner">
+            </div>
+        </footer>
+    </div>
+    <!--=====================================================================================-->
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="../../assets/js/vendor/popper.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>
