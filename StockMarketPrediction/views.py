@@ -1,41 +1,49 @@
-from django.shortcuts import render
+"""
+Title: Stock Price Prediction
+Developed  by: Syeda Atiya Husain and Pankaj Lal
+Language: Python
+Requirement:
+            Python version: Python 3 or later
+            Libraries:1) django
+                      2) pandas
+                      3) yahoo_fin 
+                      4) sklearn
+                      5) numpy
+                      6) plotly
+"""
+
+from django.shortcuts import render                         #importing necessary libraries.
 from django.http import HttpResponse
-#ML Libraries
-#import libraries
 import pandas as pd
 import numpy as np
 from yahoo_fin import stock_info as si
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
-########################################################
 import plotly.offline as opy
 import plotly.graph_objs as go
 
-#########################################################
 
 def predict(quotes_df):
     
-    # Make a copy of the dataframe so we don't modify the original
+    # Make a copy of the dataframe so that the original data remains unchanged.
     df = quotes_df.copy()
     
-    # Add the percent change of the daily closing price
+    # Add the percent change of the daily closing price.
     df['ClosingPctChange'] = df['close'].pct_change()
     
-    # Get today's record (the last record) so we can predict it later. Do this
-    # before we add the 'NextDayPrice' column so we don't have to drop it later
+    # Get today's record (the last record) so that we can predict it later. 
+    # Do this before we add the 'NextDayPrice' column so that we don't have to drop it later.
     df_today = df.iloc[-1:, :].copy()
-    #print(df_today)
+   
         
-    # Create a column of the next day's closing prices so we can train on it
-    # and then eventually predict the value
+    # Create a column of the next day's closing prices so as we can train on it.
+    # and then eventually predict the value.
     df['NextClose'] = df['close'].shift(-1)
     
-    # Get rid of the rows that have NaNs
-    #f.dropna(inplace=True)
     #linear Regression
     linreg = LinearRegression()
-    # Decide which features to use for our regression. This will allow us to 
-    # tweak things during testing
+    
+    # Decide which features to use for our regression. 
     features_to_fit = ['open', 'high', 'low', 'close', 'volume']
     
     # Create our target and labels
@@ -54,10 +62,12 @@ def predict(quotes_df):
     # Predict today's closing price
     X_new = df_today[features_to_fit]
     next_price_prediction = linreg.predict(X_new)
+    
     #graphs
     fig = go.Figure(data=[go.Bar(name='Actual', x=df_today.index, y=df_today['close']),go.Bar(name='Predictied', x=df_today.index, y=[next_price_prediction[0]])])
     fig.update_layout(barmode='group')
     div = opy.plot(fig, auto_open=False, output_type='div')
+    
     # Return the predicted closing price
     return next_price_prediction,ac,div
 
