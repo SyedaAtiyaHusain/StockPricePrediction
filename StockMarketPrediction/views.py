@@ -27,7 +27,7 @@ def predict(quotes_df):
     
     # Make a copy of the dataframe so that the original data remains unchanged.
     df = quotes_df.copy()
-    
+     
     # Add the percent change of the daily closing price.
     df['ClosingPctChange'] = df['close'].pct_change()
     
